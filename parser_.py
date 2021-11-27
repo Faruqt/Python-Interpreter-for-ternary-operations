@@ -89,7 +89,7 @@ class Parser:
 							rzult = input_[rsltt]
 							locals() [res] = rzult
 						except:
-							raise Exception(f" one input not declared ")
+							raise Exception(f" one input not declared or input doesn't match")
 					elif token.type == TokenType.EQUALTO:
 						self.advance()
 						token = self.current_token
