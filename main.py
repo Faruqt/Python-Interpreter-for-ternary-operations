@@ -25,5 +25,3 @@ while True:
 
 #input example
 # {var_1: 1, var_2: 4, var_3: 2, var_4: 3}
-
-
