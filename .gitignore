@@ -1,0 +1,25 @@
+# Python
+*.py[cod]
+*.$py.class
+
+# VS Code
+*.vscode
+
+# venv
+env/
+.venv/
+.env
+
+*.log
+*.pot
+*.pyc
+*__pycache__
+db.sqlite3
+local_settings.py
+# *media
+*.DS_Store
+
+# Backup Files
+*.bak
+
+
