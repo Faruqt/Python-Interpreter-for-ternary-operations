@@ -1,11 +1,13 @@
 from tokens import Token, TokenType
+import re
 
 WHITESPACE = ' \n\t'
-DIGITS = '0123456789'
-OPERATOR ='iIfF'
+DIGITS = '0123456789.'
+OPERATOR ='[iIfF]'
 CONTAINER = '\{\}'
-SIGN= '=<>'
-VARIABLE = 'varVAR_12345'
+SIGN= '[=<>]'
+VARIABLES = '[a-zA-Z_]'
+# VARIABLE = 'varVAR_12345'
 comma_count = 0
 compy =None
 
@@ -23,13 +25,15 @@ class Lexer:
 
 	def generate_tokens(self):
 		while self.current_char != None:
+			v = re.findall( VARIABLES, self.current_char)
 			if self.current_char in WHITESPACE:
 				self.advance()
 			elif self.current_char == '.' or self.current_char in DIGITS:
 				yield self.generate_number()
 			elif self.current_char in OPERATOR: 
 				yield self.confirm_ternary()
-			elif self.current_char in VARIABLE: 
+			elif v:
+				# print(self.current_char)
 				yield self.var_name()
 			elif self.current_char == '+':
 				self.advance()
@@ -91,25 +95,30 @@ class Lexer:
 
 	def var_name(self):
 		var_str = self.current_char
+		p = re.findall( VARIABLES, self.current_char)
 		self.advance()
-		
-		while self.current_char is not None and (self.current_char in VARIABLE or self.current_char in DIGITS):
-			  var_str += self.current_char
-			  self.advance()
+		# (self.current_char in VARIABLE or self.current_char in DIGITS)
+		while self.current_char is not None and (p or self.current_char in DIGITS):
+			p = re.findall( VARIABLES, self.current_char)
+			var_str += self.current_char
+			self.advance()
 
+		# print(self.current_char)
 		return Token(TokenType.VARIABLE, var_str)
 
 	def confirm_ternary(self):
 		str_count = 0
 
-		while self.current_char != None and self.current_char in OPERATOR:
-			if self.current_char == 'I' or self.current_char == 'i':
+		x = re.findall( OPERATOR, self.current_char)
+		while self.current_char != None and x:
+			if x:
+				str_count += 1
+				self.advance()
+			y = re.findall( OPERATOR, self.current_char)
+			if y:
 				str_count += 1
 				self.advance()
 
-			if str_count == 1 and (self.current_char == 'F' or self.current_char == 'f'):
-				str_count += 1
-				self.advance()
 
 			if str_count > 1:
 				break
@@ -139,7 +148,8 @@ class Lexer:
 		eq_count = 0
 		global compy
 
-		while self.current_char != None and self.current_char in SIGN:
+		m = re.findall( SIGN, self.current_char)
+		while self.current_char != None and m:
 			if self.current_char == '=':
 				eq_count += 1
 				self.advance()
