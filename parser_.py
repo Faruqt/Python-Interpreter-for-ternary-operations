@@ -50,8 +50,7 @@ class Parser:
 		if token.type == TokenType.STATEMENT:
 			result=self.ternary()
 			self.advance()
-			
-		return result
+			return result
 
 	def cmpare_(self):
 
@@ -75,6 +74,10 @@ class Parser:
 
 	def ternary(self):
 		self.advance()
+		rzult = None
+		rslt = 0
+		truthy=0
+		falsy=0
 		token = self.current_token
 		if token.type == TokenType.LPAREN:
 			token = self.current_token
@@ -98,7 +101,10 @@ class Parser:
 					elif token.type == TokenType.TRUTHY:
 						self.advance()
 						token = self.current_token
-						truthy= NumberNode(token.value)
+						if token.type == TokenType.NUMBER:
+							truthy= NumberNode(token.value)
+						elif token.type == TokenType.STATEMENT:
+							truthy = self.ternary()
 					elif token.type == TokenType.FALSY:
 						self.advance()
 						token = self.current_token
@@ -107,4 +113,4 @@ class Parser:
 						elif token.type == TokenType.STATEMENT:
 							falsy = self.ternary()
 			result = ComparisonNode(rzult,rslt,truthy,falsy)
-		return result
+			return result
