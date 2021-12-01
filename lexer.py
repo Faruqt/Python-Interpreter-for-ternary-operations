@@ -7,7 +7,6 @@ OPERATOR ='[iIfF]'
 CONTAINER = '\{\}'
 SIGN= '[=<>]'
 VARIABLES = '[a-zA-Z_]'
-# VARIABLE = 'varVAR_12345'
 comma_count = 0
 compy =None
 
@@ -33,7 +32,6 @@ class Lexer:
 			elif self.current_char in OPERATOR: 
 				yield self.confirm_ternary()
 			elif v:
-				# print(self.current_char)
 				yield self.var_name()
 			elif self.current_char == '+':
 				self.advance()
@@ -97,13 +95,11 @@ class Lexer:
 		var_str = self.current_char
 		p = re.findall( VARIABLES, self.current_char)
 		self.advance()
-		# (self.current_char in VARIABLE or self.current_char in DIGITS)
 		while self.current_char is not None and (p or self.current_char in DIGITS):
 			p = re.findall( VARIABLES, self.current_char)
 			var_str += self.current_char
 			self.advance()
 
-		# print(self.current_char)
 		return Token(TokenType.VARIABLE, var_str)
 
 	def confirm_ternary(self):
@@ -141,8 +137,6 @@ class Lexer:
 
 				return Token(TokenType.FALSY)
 
-		# else: 
-		# 	return
 
 	def check_equal_or_assign(self):
 		eq_count = 0
