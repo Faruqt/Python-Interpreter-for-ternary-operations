@@ -23,6 +23,7 @@ class Lexer:
 			self.current_char = None
 
 	def generate_tokens(self):
+		global comma_count
 		while self.current_char != None:
 			v = re.findall( VARIABLES, self.current_char)
 			if self.current_char in WHITESPACE:
@@ -50,6 +51,7 @@ class Lexer:
 				yield Token(TokenType.LPAREN)
 			elif self.current_char == ')':
 				self.advance()
+				comma_count+= 1
 				yield Token(TokenType.RPAREN)
 			elif self.current_char == '{':
 				self.advance()
@@ -88,7 +90,6 @@ class Lexer:
 			number_str = '0' + number_str
 		if number_str.endswith('.'):
 			number_str += '0'
-
 		return Token(TokenType.NUMBER, int(number_str))
 
 	def var_name(self):
@@ -103,6 +104,7 @@ class Lexer:
 		return Token(TokenType.VARIABLE, var_str)
 
 	def confirm_ternary(self):
+		global comma_count
 		str_count = 0
 
 		x = re.findall( OPERATOR, self.current_char)
@@ -118,6 +120,7 @@ class Lexer:
 
 			if str_count > 1:
 				break
+		comma_count = 0
 		return Token(TokenType.STATEMENT)
 
 	def check_if_else(self):
@@ -133,7 +136,6 @@ class Lexer:
 			if comma_count == 1:
 				self.advance()
 				comma_count = 0
-				compy = None
 
 				return Token(TokenType.FALSY)
 
