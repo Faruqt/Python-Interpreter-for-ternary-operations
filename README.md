@@ -1,6 +1,6 @@
 # Python-Interpreter-for-ternary-operations
 
-This interpreter takes input in the form of objects, tokenizes the input and samples, prases them and then interepretes them.
+This interpreter takes input in the form of objects, tokenizes the input and samples, parses them and then interepretes them.
 
 # Usage
 Enter your input in this format:
