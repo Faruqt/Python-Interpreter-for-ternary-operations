@@ -4,7 +4,7 @@ This interpreter takes input in the form of objects, tokenizes the input and sam
 
 ## Lexer
 
-The lexer groups the input characters into small segments called tokens and identifies the type of each token, similarly to how we group letters into words such as nouns and verbs.
+The lexer groups the input characters into small segments called tokens and identifies the type of each token.
 
 The characters in the input `{var_1: 1, var_2: 4, var_3: 2, var_4: 3}` are grouped into the tokens: `INPUTSTART`, `VARIABLE:var_1`, `ISASSIGNED`, `NUMBER:1`, `VARIABLE:var_2`, `ISASSIGNED`, `NUMBER:4`}, {`VARIABLE:var_3`, `ISASSIGNED`, `NUMBER:2` and `VARIABLE:var_4`, `ISASSIGNED`, `NUMBER:3`, `INPUTEND`.
 
